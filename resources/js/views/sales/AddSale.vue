@@ -11,13 +11,18 @@
             label-width="150"
           >
             <el-row :gutter="8">
-              <el-form-item :label="$t('FindProduct')" style="margin-left:15px">
+              <el-form-item
+                :label="$t('FindProduct')"
+                style="margin-left: 15px"
+              >
                 <el-button
                   type="primary"
                   icon="el-icon-plus"
-                  style="margin-left:-50px"
+                  style="margin-left: -50px"
                   @click="onSubmit()"
-                >{{ $t('Button.AddToList') }}</el-button>
+                >
+                  {{ $t('Button.AddToList') }}
+                </el-button>
                 <el-col :xs="24" :sm="6" :md="16" :lg="14" :xl="11">
                   <el-autocomplete
                     v-model="form.product_code"
@@ -25,22 +30,26 @@
                     :fetch-suggestions="querySearch"
                     :placeholder="$t('ProductHolder')"
                     :debounce="500"
-                    style="width:650px"
+                    style="width: 650px"
                     @select="handleSelect"
                   >
-                    <i slot="suffix" class="el-icon-edit el-input__icon" @click="handleIconClick" />
+                    <i
+                      slot="suffix"
+                      class="el-icon-edit el-input__icon"
+                      @click="handleIconClick"
+                    />
 
-                    <template slot-scope="{item}">
+                    <template slot-scope="{ item }">
                       <div class="value">
                         <img
                           :src="'/images/product.png'"
                           class="rounded-circle z-depth-2"
                           rounded="circle"
                           alt="100x100"
-                          style="float:left;width:60px;"
+                          style="float: left; width: 60px"
                           data-holder-rendered="true"
                         >
-                        <p style="float:left;margin-top:-5px;" />
+                        <p style="float: left; margin-top: -5px" />
                         <li>
                           <small>{{ item.value }}</small>
                         </li>
@@ -61,11 +70,19 @@
     <el-card>
       <div slot="header" class="clearfix">
         <el-button
-          style="float: left; padding: 3px 5px;color: black;font-weight: bold;"
+          style="float: left; padding: 3px 5px; color: black; font-weight: bold"
           type="text"
-        >{{ $t('ProductList') }}</el-button>
+        >
+          {{ $t('ProductList') }}
+        </el-button>
       </div>
-      <el-form ref="form" :model="form" :rules="rules" class="demo-form-inline" label-width="150px">
+      <el-form
+        ref="form"
+        :model="form"
+        :rules="rules"
+        class="demo-form-inline"
+        label-width="150px"
+      >
         <el-form-item :label="$t('ChooseOption')" prop="chooseoption">
           <el-select
             v-model="form.chooseoption"
@@ -77,43 +94,61 @@
               v-for="(item, index) in optionlist"
               :key="item.index"
               :label="item"
-              :value="index+1"
+              :value="index + 1"
             />
           </el-select>
         </el-form-item>
       </el-form>
       <el-table :data="list" :summary-method="getSummaries" show-summary>
-        <el-table-column :label="$t('table.Actions')" prop="Action" width="100" align="center">
+        <el-table-column
+          :label="$t('table.Actions')"
+          prop="Action"
+          width="100"
+          align="center"
+        >
           <template slot-scope="scope">
             <i
-              class="el-icon-circle-close"
-              style="color:red;cursor: pointer;"
+              class="el-icon-delete"
+              style="color: red; cursor: pointer"
               @click="handleRemove(scope.row.id)"
             />
             <!-- <i class="el-icon-edit" style="color:red;cursor: pointer;" @click="scope.row.edit=!scope.row.edit" /> -->
             <i
               v-if="scope.row.edit"
               class="el-icon-circle-check"
-              style="color:#489ee7;cursor: pointer;"
+              style="color: #489ee7; cursor: pointer"
               @click="confirmEdit(scope.row)"
             />
             <i
               v-else
-              class="el-icon-edit"
-              style="color:red;cursor: pointer;"
-              @click="scope.row.edit=!scope.row.edit"
+              class="el-icon-edit-outline"
+              style="color: red; cursor: pointer"
+              @click="scope.row.edit = !scope.row.edit"
             />
           </template>
         </el-table-column>
-        <el-table-column sortable :label="$t('table.ProductName')" prop="productname">
+        <el-table-column
+          sortable
+          :label="$t('table.ProductName')"
+          prop="productname"
+        >
           <template slot-scope="scope">
             <span>{{ scope.row.productcode }}-{{ scope.row.productname }}</span>
           </template>
         </el-table-column>
-        <el-table-column sortable :label="$t('table.Price')" align="center" prop="displayprice">
+        <el-table-column
+          sortable
+          :label="$t('table.Price')"
+          align="center"
+          prop="displayprice"
+        >
           <template slot-scope="scope">
-            <template v-if="scope.row.edit && form.chooseoption==4">
-              <el-input v-model="scope.row.displayprice" class="edit-input" size="small" />
+            <template v-if="scope.row.edit && form.chooseoption == 4">
+              <el-input
+                v-model="scope.row.displayprice"
+                class="edit-input"
+                size="small"
+              />
               <el-button
                 class="cancel-btn"
                 size="small"
@@ -134,20 +169,28 @@
         >
           <template slot-scope="scope">
             <template v-if="scope.row.edit">
-              <el-input v-model="scope.row.qty" class="edit-input" size="small" />
+              <el-input
+                v-model="scope.row.qty"
+                class="edit-input"
+                size="small"
+              />
               <el-button
                 class="cancel-btn"
                 size="mini"
                 icon="el-icon-refresh"
                 type="warning"
-                style="margin-top:-4px"
+                style="margin-top: -4px"
                 @click="cancelEdit(scope.row)"
               />
             </template>
             <span v-else>{{ scope.row.qty }}</span>
           </template>
         </el-table-column>
-        <el-table-column sortable :label="$t('table.Discount')" prop="discount_percentage">
+        <el-table-column
+          sortable
+          :label="$t('table.Discount')"
+          prop="discount_percentage"
+        >
           <template slot-scope="scope">
             <span>{{ scope.row.discount_percentage }}</span>
           </template>
@@ -165,34 +208,42 @@
       </el-table>
     </el-card>
     <pre />
-    <br>
     <el-row :gutter="24">
       <el-col
-        :xs="{span: 24}"
-        :sm="{span: 24}"
-        :md="{span: 24}"
-        :lg="{span: 12}"
-        :xl="{span: 12}"
-        style="padding-right:8px;margin-bottom:30px;"
+        :xs="{ span: 24 }"
+        :sm="{ span: 24 }"
+        :md="{ span: 24 }"
+        :lg="{ span: 12 }"
+        :xl="{ span: 12 }"
+        style="padding-right: 8px; margin-bottom: 30px"
       >
         <el-card>
           <el-tabs v-model="activeActivity">
             <el-tab-pane :label="$t('SaleInfo')" name="first" class="active">
-              <el-form ref="form" :model="form" :rules="rules" label-width="160px">
+              <el-form
+                ref="form"
+                :model="form"
+                :rules="rules"
+                label-width="160px"
+              >
                 <el-form-item :label="$t('SaleDate')" prop="SaleDate">
                   <el-col :span="24">
                     <el-date-picker
                       v-model="form.SaleDate"
                       type="date"
                       :placeholder="$t('SaleDate')"
-                      style="width: 100%;"
+                      style="width: 100%"
                       :disabled="true"
                     />
                   </el-col>
                 </el-form-item>
                 <el-form-item :label="$t('SaleMan')" prop="SystemId">
                   <el-col :span="24">
-                    <el-select v-model="form.SystemId" filterable :placeholder="$t('SaleMan')">
+                    <el-select
+                      v-model="form.SystemId"
+                      filterable
+                      :placeholder="$t('SaleMan')"
+                    >
                       <el-option value="1" label="None">None</el-option>
                       <el-option
                         v-for="item in SaleManList"
@@ -228,7 +279,10 @@
                 </el-form-item>
                 <el-form-item :label="$t('ProjectName')" prop="ProjectId">
                   <el-col :span="12">
-                    <el-select v-model="form.ProjectId" :placeholder="$t('ProjectName')">
+                    <el-select
+                      v-model="form.ProjectId"
+                      :placeholder="$t('ProjectName')"
+                    >
                       <el-option
                         v-for="item in ProjectList"
                         :key="item.project_id"
@@ -262,7 +316,11 @@
                 </el-form-item>
                 <el-form-item :label="$t('DeliveryBy')">
                   <el-col :span="24">
-                    <el-select v-model="form.DeliveryBy" filterable :placeholder="$t('DeliveryBy')">
+                    <el-select
+                      v-model="form.DeliveryBy"
+                      filterable
+                      :placeholder="$t('DeliveryBy')"
+                    >
                       <el-option value="1" label="None">None</el-option>
                       <el-option
                         v-for="item in DeliveryList"
@@ -301,7 +359,10 @@
                 </el-form-item>
                 <el-form-item :label="$t('Reff_no')" prop="reff_no">
                   <el-col :span="24">
-                    <el-input v-model="form.reff_no" :placeholder="$t('Reff_no')" />
+                    <el-input
+                      v-model="form.reff_no"
+                      :placeholder="$t('Reff_no')"
+                    />
                   </el-col>
                 </el-form-item>
 
@@ -311,14 +372,12 @@
                       v-model="form.DeliveryDate"
                       type="date"
                       :placeholder="$t('DeliveryDate')"
-                      style="width: 100%;"
+                      style="width: 100%"
                     />
                   </el-col>
                 </el-form-item>
                 <el-form-item :label="$t('Document')">
-                  <el-col :span="24">
-                    <el-input v-model="form.Document" type="file" />
-                  </el-col>
+                  <fileUpload />
                 </el-form-item>
                 <el-form-item :label="$t('DeliveryNote')">
                   <el-col :span="24">
@@ -341,15 +400,19 @@
                 <el-form-item :label="$t('Noted')">
                   <el-col :span="24">
                     <el-input
-                      v-model="form.DeliveryAddress"
+                      v-model="form.Noted"
                       type="textarea"
                       :placeholder="$t('Noted')"
                     />
                   </el-col>
                 </el-form-item>
                 <el-form-item>
-                  <el-button type="primary" @click="onSubmit()">{{ $t('Button.Create') }}</el-button>
-                  <el-button @click="resetForm('form')">{{ $t('Button.Reset') }}</el-button>
+                  <el-button type="primary" @click="onSubmitCustomer()">{{
+                    $t('Button.Create')
+                  }}</el-button>
+                  <el-button @click="resetForm('form')">{{
+                    $t('Button.Reset')
+                  }}</el-button>
                 </el-form-item>
               </el-form>
             </el-tab-pane>
@@ -357,22 +420,29 @@
         </el-card>
       </el-col>
       <el-col
-        :xs="{span: 24}"
-        :sm="{span: 24}"
-        :md="{span: 23}"
-        :lg="{span: 12}"
-        :xl="{span: 12}"
-        style="margin-bottom:30px;"
+        :xs="{ span: 24 }"
+        :sm="{ span: 24 }"
+        :md="{ span: 23 }"
+        :lg="{ span: 12 }"
+        :xl="{ span: 12 }"
+        style="margin-bottom: 30px"
       >
         <el-card>
           <el-tabs v-model="activeActivity">
             <el-tab-pane :label="$t('PaymentInfo')" name="first" class="active">
-              <el-form ref="form" :model="form" :rules="rules" label-width="160px">
+              <el-form
+                ref="form"
+                :model="form"
+                :rules="rules"
+                label-width="160px"
+              >
                 <el-form-item :label="$t('Total')">
                   <el-col :span="6">
                     <label>{{ Total | numFormat('0,0.00') }}</label>
                   </el-col>
-                  <el-col class="line" :span="10" style="text-align:right">{{ $t('Exchange') }}</el-col>
+                  <el-col class="line" :span="10" style="text-align: right">{{
+                    $t('Exchange')
+                  }}</el-col>
                   <el-col :span="8">
                     <label>{{ form.exchange | numFormat('0,0.00') }}</label>
                   </el-col>
@@ -381,24 +451,22 @@
                   <el-col :span="6">
                     <label>{{ form.DeliveryCost | numFormat('0,0.00') }}</label>
                   </el-col>
-                  <el-col
-                    class="line"
-                    :span="10"
-                    style="text-align:right"
-                  >{{ $t('DiscountAmount') }}</el-col>
+                  <el-col class="line" :span="10" style="text-align: right">{{
+                    $t('DiscountAmount')
+                  }}</el-col>
                   <el-col :span="8">
-                    <label>{{ form.TotalDiscount | numFormat('0,0.00') }}</label>
+                    <label>{{
+                      form.TotalDiscount | numFormat('0,0.00')
+                    }}</label>
                   </el-col>
                 </el-form-item>
                 <el-form-item :label="$t('GrandTotal')">
                   <el-col :span="6">
                     <label>{{ form.GRANDTOTAL | numFormat('0,0.00') }}</label>
                   </el-col>
-                  <el-col
-                    class="line"
-                    :span="10"
-                    style="text-align:right"
-                  >{{ $t('GrandTotalឬiel') }}</el-col>
+                  <el-col class="line" :span="10" style="text-align: right">{{
+                    $t('GrandTotalឬiel')
+                  }}</el-col>
                   <el-col :span="8">
                     <label>{{ form.GrandTotalRiel | numFormat('0,0') }}</label>
                   </el-col>
@@ -432,6 +500,7 @@ div.el-tabs__active-bar.is-top {
 <script>
 import Resource from '@/api/resource';
 import moment from 'moment';
+import fileUpload from './components/uploadfile';
 
 const AddToListResource = new Resource('addtolist');
 const ListTempTableResource = new Resource('listtempProduct');
@@ -447,6 +516,7 @@ const DeliveryResource = new Resource('DeliveryPersion');
 const ProjectNameByCusIdResource = new Resource('GetProjectName');
 
 export default {
+  components: { fileUpload },
   data() {
     return {
       Total: 0,
@@ -574,8 +644,8 @@ export default {
           sums[index] = this.$t('table.GrandTotal');
           return;
         }
-        const values = data.map(item => Number(item[column.property]));
-        if (!values.every(value => isNaN(value))) {
+        const values = data.map((item) => Number(item[column.property]));
+        if (!values.every((value) => isNaN(value))) {
           if (index === 2 || index === 5) {
             sums[index] =
               '$  ' +
@@ -637,7 +707,7 @@ export default {
       this.loading = true;
       const { data } = await ListTempTableResource.list();
       const tableData = data.items;
-      this.list = tableData.map(v => {
+      this.list = tableData.map((v) => {
         this.$set(v, 'edit', false);
         v.qtyoriginal = v.qty;
         v.unit_priceorig = v.displayprice; // https://vuejs.org/v2/guide/reactivity.html//  will be used when user click the cancel botton
@@ -656,7 +726,7 @@ export default {
           });
           this.GetListProTemp();
         })
-        .catch(error => {
+        .catch((error) => {
           console.log(error);
         });
     },
@@ -680,20 +750,20 @@ export default {
         chooseoption: this.form.chooseoption,
       };
       UpdatePricebyOptionResource.store(this.editPrice)
-        .then(response => {
+        .then((response) => {
           this.$message({
             message: 'The information has been edited',
             type: 'success',
           });
           this.GetListProTemp();
         })
-        .catch(error => {
+        .catch((error) => {
           console.log(error);
         });
     },
     handleChooseOption() {
       PlistbyOptionResource.update(this.form.chooseoption)
-        .then(response => {
+        .then((response) => {
           this.$message({
             message: 'Product information has been change option sale',
             type: 'success',
@@ -701,12 +771,12 @@ export default {
           });
           this.GetListProTemp();
         })
-        .catch(error => {
+        .catch((error) => {
           console.log(error);
         });
     },
     createFilter(queryString) {
-      return link => {
+      return (link) => {
         return (
           link.value.toLowerCase().indexOf(queryString.toLowerCase()) === 0
         );
@@ -721,10 +791,10 @@ export default {
       this.form.product_code = '';
     },
     onSubmit() {
-      this.$refs['form'].validate(valid => {
+      this.$refs['form'].validate((valid) => {
         if (valid) {
           AddToListResource.store(this.form)
-            .then(response => {
+            .then((response) => {
               this.$message({
                 message: 'Sale has been created successfully.',
                 type: 'success',
@@ -732,7 +802,7 @@ export default {
               });
               this.GetListProTemp();
             })
-            .catch(error => {
+            .catch((error) => {
               console.log(error);
             });
         } else {
@@ -776,26 +846,30 @@ export default {
       this.getProjectByCusId();
       this.Loading = false;
     },
+    backEndDateFormat(date) {
+      return moment(date, 'DD/MM/YYYY').format('YYYY-MM-DD');
+    },
     onSubmitCustomer() {
-      this.$refs['form'].validate(valid => {
+      this.$refs['form'].validate((valid) => {
         if (valid) {
           SaleDailyResource.store(this.form)
-            .then(response => {
+            .then((response) => {
+              this.$router.push('/sales/draftpayment/view/' + response.data.sale_id);
               this.$message({
                 message: 'Sale has been created successfully.',
                 type: 'success',
                 duration: 5 * 1000,
               });
-              if (
-                response.data.repayment_status === 'SRPM001' ||
-                response.data.repayment_status === 'SRPM003'
-              ) {
-                this.AlertTopaid = 'សូមកុំភ្លេចបង់ប្រាក់';
-              } else {
-                this.$router.push('/sales/salelist');
-              }
+              // if (
+              //   response.data.repayment_status === 'SRPM001' ||
+              //   response.data.repayment_status === 'SRPM003'
+              // ) {
+              //   this.AlertTopaid = 'សូមកុំភ្លេចបង់ប្រាក់';
+              // } else {
+              //   this.$router.push('/sales/draftpayment/view/' + response.data.sale_id);
+              // }
             })
-            .catch(error => {
+            .catch((error) => {
               console.log(error);
             });
         } else {
@@ -803,9 +877,6 @@ export default {
           return false;
         }
       });
-    },
-    backEndDateFormat: function(date) {
-      return moment(date, 'DD/MM/YYYY').format('YYYY-MM-DD');
     },
   },
 };

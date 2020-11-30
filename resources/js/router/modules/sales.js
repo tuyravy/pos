@@ -24,7 +24,7 @@ const saleroute = {
       path: 'draftpayment/view/:id(\\d+)',
       component: () => import('@/views/sales/components/draft_payment'),
       name: 'draftpayment',
-      meta: { title: 'Payment' },
+      meta: { title: 'draftpayment' },
       hidden: true,
     },
     {

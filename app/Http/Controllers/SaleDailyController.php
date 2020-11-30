@@ -169,7 +169,7 @@ class SaleDailyController extends Controller
                     (select delivery_cost from rsk_sale where sale_id =rt.sale_id order by sale_id ASC) as DeliveryCost
                     from rsk_tranhist rt
                     where userkey='".Auth::user()->UserKey."'
-                    and flag=2 and transaction_no='".$id."'");
+                    and flag=2 and sale_id='".$id."'");
             $data=[];
             $sale_id = "";
             $SubTotal= 0 ;
@@ -300,6 +300,7 @@ class SaleDailyController extends Controller
     }
     //Get temp Product list 
     public function GetProListDraft($saleAutoID){
+        
         $TempTable=DB::select("select *,case 
                             when saletype=1 then defult_price
                             when saletype=2 then retail_price
@@ -309,7 +310,7 @@ class SaleDailyController extends Controller
                             from rsk_tranhist
                             where userkey='".Auth::user()->UserKey."'
                             and flag=2
-                            and transaction_no='".$saleAutoID."'");
+                            and sale_id='".$saleAutoID."'");
         $data=[];
         $sale_id = "";
         $invoice_no=0;
@@ -340,6 +341,7 @@ class SaleDailyController extends Controller
             $TaxAmount +=$row->displayprice*$row->qty*$row->product_Tax/100;
             $SubTotal +=$row->displayprice*$row->qty-$row->displayprice*$row->qty*$row->product_Tax/100;
         }
+     
         $GRANDTOTAL=$SubTotal + $TaxAmount + $TotalDiscount;
         return collect(["data"=>["items"=>$data,'sale_id'=>$sale_id,'invoice_no'=>$invoice_no,'SubTotal'=>$SubTotal,'TotalDiscount'=>$TotalDiscount,'TaxAmount'=>$TaxAmount,'GRANDTOTAL'=>$GRANDTOTAL]])->toArray();
     }
@@ -614,9 +616,9 @@ class SaleDailyController extends Controller
 
             
             DB::commit();     
-            return response()->json(new JsonResponse(["SaleAutoID"=>$transaction_no,"repayment_status"=>$request->PaymentMothod]));  
+            return response()->json(new JsonResponse(["SaleAutoID"=>$transaction_no,"repayment_status"=>$request->PaymentMothod,"sale_id"=>$sale_id]));  
         }catch(\Exception $e){
-            dd($e);
+            
             DB::rollback();
             return response()->json(new JsonResponse([], 'Transaction error'), Response::HTTP_UNAUTHORIZED);
         }

@@ -2,200 +2,193 @@
 <template>
   <div class="app-container">
     <el-card>
+      <div slot="header" class="clearfix">
+        <el-button
+          style="float: right; padding: 3px 5px"
+          type="text"
+          class="el-icon-printer"
+          @click="handleInvices"
+        >Invoice</el-button>
+        <el-button
+          style="float: right; padding: 3px 0"
+          type="text"
+          class="el-icon-money"
+          @click="dialog = true"
+        >Payment</el-button>
+        <el-button
+          style="float: right; padding: 3px 5px"
+          type="text"
+          class="el-icon-document"
+        >Quotation</el-button>
+        <span style="float: right; padding: 3px 0"><label style="color:#1890ff;font-size:12px;border-color:transparent;">Header Invoice</label>
+          <el-switch v-model="form.headerinvoice" @change="switchHeader" /></span>
+      </div>
       <el-tabs v-model="activeActivity">
-        <el-tab-pane label="Item List" name="first" class="active">
-          <el-card class="box-card">
-            <div slot="header" class="clearfix">
-              <el-button
-                style="float: right; padding: 3px 5px"
-                type="text"
-                class="el-icon-printer"
-                @click="handleInvice"
-              >Invoice</el-button>
-              <el-button
-                style="float: right; padding: 3px 0"
-                type="text"
-                class="el-icon-money"
-                @click="dialog = true"
-              >Payment</el-button>
-              <el-button
-                style="float: right; padding: 3px 5px"
-                type="text"
-                class="el-icon-document"
-              >Quotation</el-button>
-              <span style="float: right; padding: 3px 0"><label style="color:#1890ff;font-size:12px;border-color:transparent;">Header Invoice</label>
-                <el-switch v-model="form.headerinvoice" @change="switchHeader" /></span>
-            </div>
-
-            <div id="printMe">
-              <header v-if="form.headerinvoice==true">
-                <el-row :gutter="20">
-                  <el-col :span="3">
-                    <img src="images/logo.jpg" style="width:100%;">
-                  </el-col>
-                  <el-col :span="10">
-                    <span style="font-weight:bold;font-size:20px;margin-left:-12px;">RKS Co., Ltd.</span>
-                    <p style="font-weight:bold;margin-left:-12px;">Raksmei Kuchsa</p>
-                  </el-col>
-                  <el-col :span="11">
-                    <span style="font-size:12px;">
-                      <span style="font-weight:bold">Adress:</span> #271, Corner 432 Sangkat Toul Tumpong 2, 12311
-                    </span>
-                    <p style="font-size:12px;">
-                      <span>
-                        <span span style="font-weight:bold">Phone:</span> 012 810 821
-                      </span>
-                      <span>
-                        <span style="font-weight:bold">Email:</span> sopheap.long@rks-kh.com
-                      </span>
-                    </p>
-                    <p style="font-size:12px;">
-                      <span style="font-weight:bold">Website:</span> wwww.rsk-kh.com
-                    </p>
-                  </el-col>
-                </el-row>
-              </header>
-              <main>
-                <page size="A4" layout="portrait" name="page">
-                  <el-row :gutter="20">
-                    <pre />
-                  </el-row>
-                  <el-row :gutter="20">
-                    <el-col :span="12">
-                      <span style="font-size:12px;">INVOICE TO</span>
-                      <p
-                        style="font-size:16px;font-weight:bold"
-                      >{{ form.firstName }} {{ form.familyName }}</p>
-                      <p style="font-size:12px;">{{ form.Position }}</p>
-                      <p>
-                        <span icons="eye" style="font-size:12px;">Address: {{ form.address_detail }}</span>
-                      </p>
-                      <p style="font-size:12px;">
-                        <span>P: {{ form.phone }}</span>
-                      </p>
-                      <p>
-                        <span>E: {{ form.email }}</span>
-                      </p>
-                    </el-col>
-                    <el-col :span="9" style="margin-top:-20px;">
-                      <span style="font-weight:bold;font-size:22px;">INVOICE</span>
-                      <p style="font-size:12px;margin-top:-2px;">
-                        No:
-                        <span>{{ form.invoice_no }}</span>
-                      </p>
-                      <pre><hr style="width:100px;" align="left"></pre>
-                      <p style="margin-bottom:-10px;font-size:12px">
-                        <span>Invoice Date:</span>
-                      </p>
-                      <p>
-                        <span style="font-weight:bold;">{{ form.DateNow }}</span>
-                      </p>
-                    </el-col>
-                  </el-row>
-                  <el-table
-                    :data="list"
-                    border
-                    fit
-                    highlight-current-row
-                    style="width: 100%"
-                    align="right"
-                  >
-                    <el-table-column align="left" label="Item" width="230">
-                      <template slot-scope="scope">
-                        <span>{{ scope.row.productname }}</span>
-                      </template>
-                    </el-table-column>
-                    <el-table-column align="center" label="Unit Price" width="160">
-                      <template slot-scope="scope">
-                        <span>{{ scope.row.displayprice | numFormat('0,0.00') }}</span>
-                      </template>
-                    </el-table-column>
-                    <el-table-column align="center" label="Qty" width="160">
-                      <template slot-scope="scope">
-                        <span>{{ scope.row.qty }}</span>
-                      </template>
-                    </el-table-column>
-                    <!-- <el-table-column align="right" label="Tax (%)" width="150">
-              <template slot-scope="scope">
-                <span>{{ scope.row.product_Tax }}</span>
-              </template>
-                    </el-table-column>-->
-                    <el-table-column align="center" label="Total" width="160">
-                      <template slot-scope="scope">
-                        <span style="margin-right:0px">{{ scope.row.total | numFormat('0,0.00') }}</span>
-                      </template>
-                    </el-table-column>
-                  </el-table>
-                  <el-row :gutter="20">
-                    <el-col :span="13">
-                      <pre />
-                      <span style="font-weight:bold">Payment Method</span>
-                      <p>by Cash</p>
-                    </el-col>
-                    <el-col :span="11">
-                      <div class="el-table" align="right">
-                        <table style="width: 100%">
-                          <tr>
-                            <td style="text-align:right">Sub Total:</td>
-                            <td
-                              style="text-align:center;width:50%"
-                            >{{ SubTotal | numFormat('0,0.00') }}</td>
-                          </tr>
-                          <tr>
-                            <td style="text-align:right">Discount 5%:</td>
-                            <td
-                              style="text-align:center;width:50%"
-                            >{{ TotalDiscount | numFormat('0,0.00') }}</td>
-                          </tr>
-                          <tr>
-                            <td style="text-align:right">Tax Vat 10%:</td>
-                            <td
-                              style="text-align:center;width:50%"
-                            >{{ TaxAmount | numFormat('0,0.00') }}</td>
-                          </tr>
-                          <tr>
-                            <td style="text-align:right">Total Due:</td>
-                            <td
-                              style="text-align:center;width:50%"
-                            >{{ form.balancedue | numFormat('0,0.00') }}</td>
-                          </tr>
-                          <tr>
-                            <td style="text-align:right;font-weight:bold">Grand Total:</td>
-                            <td
-                              style="text-align:center;width:50%;font-weight:bold"
-                            >{{ GRANDTOTAL | numFormat('0,0.00') }}</td>
-                          </tr>
-                        </table>
-                      </div>
-                      <pre />
-                      <span style="font-size:12px;margin-bottom:10px;">Account Manager</span>
-                      <p style="font-weight:bold">Jub Chinda</p>
-                      <pre />
-                      <pre />
-                    </el-col>
-                  </el-row>
-                  <pre><hr></pre>
-                </page>
-              </main>
-              <footer>
-                <el-row :gutter="20">
-                  <el-col>
-                    <span style="font-weight:bold">Terms & Conditions</span>
-                    <p
-                      style="font-size:12px"
-                    >1. The Seller Shall not be liable to the buyer directly or indirectly for any loss or change suffened by the buyer.</p>
-                    <p
-                      style="font-size:12px"
-                    >2. The Seller warrants the product for one(1) year from the done of shipment.</p>
-                    <p
-                      style="font-size:12px"
-                    >3. Any purchase order received by the seller will be interpesed as accepting this offer and the .</p>
-                  </el-col>
-                </el-row>
-              </footer>
-            </div>
-          </el-card>
-        </el-tab-pane>
+        <div id="printMe">
+          <header v-if="form.headerinvoice==true">
+            <el-row :gutter="20">
+              <el-col :span="3">
+                <img src="images/logo.jpg" style="width:100%;">
+              </el-col>
+              <el-col :span="10">
+                <span style="font-weight:bold;font-size:20px;margin-left:-12px;">RKS Co., Ltd.</span>
+                <p style="font-weight:bold;margin-left:-12px;">Raksmei Kuchsa</p>
+              </el-col>
+              <el-col :span="11">
+                <span style="font-size:12px;">
+                  <span style="font-weight:bold">Adress:</span> #271, Corner 432 Sangkat Toul Tumpong 2, 12311
+                </span>
+                <p style="font-size:12px;">
+                  <span>
+                    <span span style="font-weight:bold">Phone:</span> 012 810 821
+                  </span>
+                  <span>
+                    <span style="font-weight:bold">Email:</span> sopheap.long@rks-kh.com
+                  </span>
+                </p>
+                <p style="font-size:12px;">
+                  <span style="font-weight:bold">Website:</span> wwww.rsk-kh.com
+                </p>
+              </el-col>
+            </el-row>
+          </header>
+          <main>
+            <el-row :gutter="20">
+              <pre />
+            </el-row>
+            <el-row :gutter="20">
+              <el-col :span="12">
+                <span style="font-size:12px;">INVOICE TO</span>
+                <p
+                  style="font-size:16px;font-weight:bold"
+                >{{ form.firstName }} {{ form.familyName }}</p>
+                <p style="font-size:12px;">{{ form.Position }}</p>
+                <p>
+                  <span icons="eye" style="font-size:12px;">Address: {{ form.address_detail }}</span>
+                </p>
+                <p style="font-size:12px;">
+                  <span>P: {{ form.phone }}</span>
+                </p>
+                <p>
+                  <span>E: {{ form.email }}</span>
+                </p>
+              </el-col>
+              <el-col :span="9" style="margin-top:-20px;">
+                <span style="font-weight:bold;font-size:22px;">INVOICE</span>
+                <p style="font-size:12px;margin-top:-2px;">
+                  No:
+                  <span>{{ form.invoice_no }}</span>
+                </p>
+                <pre><hr style="width:100px;" align="left"></pre>
+                <p style="margin-bottom:-10px;font-size:12px">
+                  <span>Invoice Date:</span>
+                </p>
+                <p>
+                  <span style="font-weight:bold;">{{ form.DateNow }}</span>
+                </p>
+              </el-col>
+            </el-row>
+            <el-table
+              :data="list"
+              border
+              fit
+              highlight-current-row
+              style="width: 100%"
+              align="right"
+            >
+              <el-table-column align="left" label="Item" width="230">
+                <template slot-scope="scope">
+                  <span>{{ scope.row.productname }}</span>
+                </template>
+              </el-table-column>
+              <el-table-column align="center" label="Unit Price" width="160">
+                <template slot-scope="scope">
+                  <span>{{ scope.row.displayprice | numFormat('0,0.00') }}</span>
+                </template>
+              </el-table-column>
+              <el-table-column align="center" label="Qty" width="160">
+                <template slot-scope="scope">
+                  <span>{{ scope.row.qty }}</span>
+                </template>
+              </el-table-column>
+              <!-- <el-table-column align="right" label="Tax (%)" width="150">
+        <template slot-scope="scope">
+          <span>{{ scope.row.product_Tax }}</span>
+        </template>
+              </el-table-column>-->
+              <el-table-column align="center" label="Total" width="160">
+                <template slot-scope="scope">
+                  <span style="margin-right:0px">{{ scope.row.total | numFormat('0,0.00') }}</span>
+                </template>
+              </el-table-column>
+            </el-table>
+            <el-row :gutter="20">
+              <el-col :span="13">
+                <pre />
+                <span style="font-weight:bold">Payment Method</span>
+                <p>by Cash</p>
+              </el-col>
+              <el-col :span="11">
+                <div class="el-table" align="right">
+                  <table style="width: 100%">
+                    <tr>
+                      <td style="text-align:right">Sub Total:</td>
+                      <td
+                        style="text-align:center;width:50%"
+                      >{{ SubTotal | numFormat('0,0.00') }}</td>
+                    </tr>
+                    <tr>
+                      <td style="text-align:right">Discount 5%:</td>
+                      <td
+                        style="text-align:center;width:50%"
+                      >{{ TotalDiscount | numFormat('0,0.00') }}</td>
+                    </tr>
+                    <tr>
+                      <td style="text-align:right">Tax Vat 10%:</td>
+                      <td
+                        style="text-align:center;width:50%"
+                      >{{ TaxAmount | numFormat('0,0.00') }}</td>
+                    </tr>
+                    <tr>
+                      <td style="text-align:right">Total Due:</td>
+                      <td
+                        style="text-align:center;width:50%"
+                      >{{ form.balancedue | numFormat('0,0.00') }}</td>
+                    </tr>
+                    <tr>
+                      <td style="text-align:right;font-weight:bold">Grand Total:</td>
+                      <td
+                        style="text-align:center;width:50%;font-weight:bold"
+                      >{{ GRANDTOTAL | numFormat('0,0.00') }}</td>
+                    </tr>
+                  </table>
+                </div>
+                <pre />
+                <span style="font-size:12px;margin-bottom:10px;">Account Manager</span>
+                <p style="font-weight:bold">Jub Chinda</p>
+                <pre />
+                <pre />
+              </el-col>
+            </el-row>
+            <pre><hr></pre>
+          </main>
+          <footer>
+            <el-row :gutter="20">
+              <el-col>
+                <span style="font-weight:bold">Terms & Conditions</span>
+                <p
+                  style="font-size:12px"
+                >1. The Seller Shall not be liable to the buyer directly or indirectly for any loss or change suffened by the buyer.</p>
+                <p
+                  style="font-size:12px"
+                >2. The Seller warrants the product for one(1) year from the done of shipment.</p>
+                <p
+                  style="font-size:12px"
+                >3. Any purchase order received by the seller will be interpesed as accepting this offer and the .</p>
+              </el-col>
+            </el-row>
+          </footer>
+        </div>
       </el-tabs>
     </el-card>
     <el-drawer
@@ -284,7 +277,7 @@ export default {
       this.form.DateNow = sale_date;
       this.loading = false;
     },
-    handleInvice() {
+    handleInvices() {
       var divElements = document.getElementById('printMe').innerHTML;
       var oldPage = document.body.innerHTML;
       document.body.innerHTML =
@@ -314,7 +307,6 @@ export default {
     },
     switchHeader(){
       this.handleInvice = true;
-      console.log(this.handleInvice);
     },
   },
 };

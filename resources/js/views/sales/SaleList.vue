@@ -92,9 +92,7 @@
           <el-table-column align="center" :label="$t('table.Actions')" width="100">
             <template slot-scope="scope">
               <el-dropdown>
-                <span class="el-dropdown-link">
-                  dropdown<i class="el-icon-arrow-down el-icon--right" />
-                </span>
+                <i class="el-icon-more" style="cursor:pointer" />
                 <el-dropdown-menu slot="dropdown" size="mini">
                   <el-dropdown-item icon="el-icon-document">
                     <span @click="SaleDetail(scope.row.sale_id)">Sale Detail</span>

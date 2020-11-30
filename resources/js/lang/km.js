@@ -44,6 +44,7 @@ export default {
     manageproject: 'គ្រប់គ្រង់គម្រោង',
     updateproject: 'Update Project',
     projectlist: 'ព៍ត័មានគម្រោង',
+    draftpayment: 'ព្រៀមការបង់ប្រាក់',
     addproject: 'Add Project',
     projectinfo: 'Project Info',
     managereports: 'RSK Reports',

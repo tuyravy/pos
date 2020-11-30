@@ -28,11 +28,11 @@ export function getLanguage() {
   const language = (navigator.language || navigator.browserLanguage).toLowerCase();
   const locales = Object.keys(messages);
   for (const locale of locales) {
-    if (language.indexOf(locale) > -1) {
+    if (language.indexOf(locale) > 0) {
       return locale;
     }
   }
-  return 'km';
+  return 'en';
 }
 const i18n = new VueI18n({
   // set locale

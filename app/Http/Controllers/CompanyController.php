@@ -49,6 +49,7 @@ class CompanyController extends Controller
         $Branch_list = json_decode(Auth::user()->Branch_list);       
         $whereRaw = ('CompanyCode in('.$companycode.')');
        
+       
         $companyQuery=DB::table('branch')
             ->whereRaw($whereRaw)
             ->whereIn("BrCode",$Branch_list->BrCode)
@@ -58,7 +59,7 @@ class CompanyController extends Controller
         $data=[];
         foreach($companyQuery as $row){
             $da=[
-                    'BrCode'=>$row->brCode,
+                    'BrCode'=>$row->BrCode,
                     'BrName'=>$row->brName,
                     'ShortCode' =>$row->shortcode,
                     'BrNamekh'=>$row->brNamekh

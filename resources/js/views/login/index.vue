@@ -11,7 +11,7 @@
       <img src="/favicon/favicon.ico" class="login-logo" rounded="circle">
       <lang-select class="set-language" />
       <span style="text-align:center">
-        <h3>Welcome RSK Group</h3>
+        <h3>សូមស្វាគមន៍</h3>
       </span>
       <el-form-item prop="email">
         <span class="svg-container">
@@ -131,6 +131,7 @@ $light_gray: #454545;
   display: block;
   margin-left: auto;
   margin-right: auto;
+  border-radius: 10%;
 }
 /* reset element-ui css */
 .login-container {

@@ -28,20 +28,18 @@
           <label>{{ form.GrandTotalRiel | numFormat('0,0') }}</label>
         </el-col>
       </el-form-item>
-      <pre />
-
       <el-form-item :label="$t('TotalPaid')" prop="TotalPaided">
-        <el-col :span="24">
+        <el-col :span="8">
           <el-input v-model="form.TotalPaided" :placeholder="$t('TotalPaid')" :autofocus="true" />
         </el-col>
       </el-form-item>
       <el-form-item :label="$t('Return')" prop="AmountReturn">
-        <el-col :span="24">
+        <el-col :span="8">
           <el-input v-model="form.AmountReturn" :placeholder="$t('Return')" />
         </el-col>
       </el-form-item>
       <el-form-item :label="$t('ReturnRiel')" prop="AmountRiel">
-        <el-col :span="24">
+        <el-col :span="8">
           <el-input v-model="form.AmountRiel" :placeholder="$t('ReturnRiel')" />
         </el-col>
       </el-form-item>
